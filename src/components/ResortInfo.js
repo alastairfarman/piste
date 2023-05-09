@@ -17,11 +17,11 @@ export default function ResortInfo({ resortData }) {
           {resortData.top.snowDepth}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
-          {resortData.top.temperature} °C
+          {resortData.top.temperature}
         </span>
       </div>
       <div>
-      <img src="bottom.png" alt="Resort" style={{ width: "25px" }} />
+        <img src="bottom.png" alt="Resort" style={{ width: "25px" }} />
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
           {resortData.bottom.elevation}
         </span>
@@ -29,7 +29,7 @@ export default function ResortInfo({ resortData }) {
           {resortData.bottom.snowDepth}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
-          {resortData.bottom.temperature} °C
+          {resortData.bottom.temperature}
         </span>
       </div>
     </div>

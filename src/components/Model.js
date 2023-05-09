@@ -59,10 +59,7 @@ export default function Model({ toggleState, liftData }) {
   const { emptyObjects, liftObjects, runMeshes } = initializeMeshes();
 
   const towns = emptyObjects.map((obj) => {
-    const name = obj.name
-      .split("_")
-      .slice(1)
-      .join(" "); // Split the name and join with a space
+    const name = obj.name.split("_").slice(1).join(" "); // Split the name and join with a space
     return {
       name: name,
       position: obj.position,
@@ -70,13 +67,9 @@ export default function Model({ toggleState, liftData }) {
   });
 
   const lifts = liftObjects.map((obj) => {
-    const name = obj.name
-      .split("_")
-      .slice(1)
-      .join(" ");
+    const name = obj.name.split("_").slice(1).join(" ");
     const lift = liftData().skiLifts.find((lift) => lift.name === name);
     const status = lift ? lift.status : "unknown";
-    console.log(name, status);
 
     return {
       name: name,

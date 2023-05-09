@@ -22,17 +22,14 @@ function App() {
     bottom: { snowDepth: 0, temperature: 0, elevation: 0 },
   });
   const [hourlyData, setHourlyData] = useState([
-    {
-      time: "10:00",
-      description: "Sunny",
-      windSpeed: 5,
-    },
-    {
-      time: "11:00",
-      description: "Partly Cloudy",
-      windSpeed: 7,
-    },
-    // Add more objects as needed
+    { time: "1PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "2PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "3PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "4PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "5PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "6PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "7PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
+    { time: "8PM", summary: "Sunny", maxTemp: "2°C", windSpeed: "8km/h" },
   ]);
   const [liftStatusData, setLiftStatusData] = useState({
     open: liftData().statusSummary.open,
@@ -73,8 +70,19 @@ function App() {
 
   // API calls
 
+  const findNearestTimeIndex = (timeArray, currentTime) => {
+    return timeArray.reduce((nearestIndex, currentTimeObj, index) => {
+      const currentDiff = Math.abs(
+        parseInt(currentTime, 10) - parseInt(currentTimeObj.time, 10)
+      );
+      const nearestDiff = Math.abs(
+        parseInt(currentTime, 10) - parseInt(timeArray[nearestIndex].time, 10)
+      );
+      return currentDiff < nearestDiff ? index : nearestIndex;
+    }, 0);
+  };
+
   useEffect(() => {
-    // Resort and snow conditions
     const fetchResortData = async () => {
       const url =
         "https://ski-resort-forecast.p.rapidapi.com/La%20Plagne/snowConditions?units=m";
@@ -128,26 +136,39 @@ function App() {
       try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log(result);
 
-        // setResortData((prevState) => ({
-        //   ...prevState,
-        //   top: {
-        //     ...prevState.top,
-        //     temperature: result.topLift[0].maxTemp,
-        //   },
-        //   bottom: {
-        //     ...prevState.bottom,
-        //     temperature: result.botLift[0].maxTemp,
-        //   },
-        // }));
+        const currentDateTime = new Date();
+        const currentTime = currentDateTime.toLocaleString("en-US", {
+          timeZone: "Europe/Paris",
+          hour: "numeric",
+          hour12: true,
+        });
+
+        const topLiftIndex = findNearestTimeIndex(result.topLift, currentTime);
+        const botLiftIndex = findNearestTimeIndex(result.botLift, currentTime);
+
+        setResortData((prevState) => ({
+          ...prevState,
+          top: {
+            ...prevState.top,
+            temperature: result.topLift[topLiftIndex].maxTemp,
+          },
+          bottom: {
+            ...prevState.bottom,
+            temperature: result.botLift[botLiftIndex].maxTemp,
+          },
+        }));
+
+        if (result.midLift) {
+          setHourlyData(result.midLift);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
-    // fetchResortData();
-    // fetchHourlyData();
+    fetchResortData();
+    fetchHourlyData();
   }, []);
 
   return (
@@ -207,6 +228,7 @@ function App() {
               <Html>
                 <img
                   src="./icon.png"
+                  alt="loading"
                   style={{
                     position: "fixed",
                     width: "50px",

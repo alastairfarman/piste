@@ -7,15 +7,17 @@ export default function HourlyForecast({ hourlyData }) {
 
   return (
     <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-    }}>
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+      }}
+    >
       {hourlyData.map((hour, index) => (
         <div key={index}>
           <h2>{hour.time}</h2>
-          <p>{hour.description}</p>
-          <p>{hour.windSpeed} km/h</p>
+          <p>{hour.summary}</p>
+          <p>{hour.maxTemp}</p>
+          <p>{hour.windSpeed}</p>
         </div>
       ))}
     </div>
