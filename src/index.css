@@ -35,3 +35,36 @@ p {
     transform: rotate(1079deg);
   }
 }
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 0.8rem;
+  }
+
+  p {
+    font-size: 0.6rem;
+  }
+
+  #info-panel {
+    left: 0;
+    height: auto !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+  #hourly-forecast {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+.toggle-button {
+  all: unset;
+}
+
+.toggle-button:hover {
+  cursor: pointer;
+  background: linear-gradient(rgba(54, 132, 206, 1) 0%, rgb(30, 80, 128) 100%);
+}

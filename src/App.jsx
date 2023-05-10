@@ -52,6 +52,7 @@ function App() {
       ...prevState,
       satellite: !prevState.satellite,
     }));
+    console.log(toggleState)
   };
 
   const toggleResortLabels = () => {
@@ -99,6 +100,8 @@ function App() {
         const response = await fetch(url, options);
         const result = await response.json();
 
+        console.log("Resort Data API: ", result);
+
         const resortData = {
           resort: {
             name: result.basicInfo.name,
@@ -137,6 +140,8 @@ function App() {
         const response = await fetch(url, options);
         const result = await response.json();
 
+        console.log("Hourly Data API: ", result);
+
         const currentDateTime = new Date();
         const currentTime = currentDateTime.toLocaleString("en-US", {
           timeZone: "Europe/Paris",
@@ -160,7 +165,11 @@ function App() {
         }));
 
         if (result.midLift) {
-          setHourlyData(result.midLift);
+          const midLiftData = result.midLift.splice(
+            findNearestTimeIndex(result.midLift, currentTime)
+          );
+
+          setHourlyData(midLiftData);
         }
       } catch (error) {
         console.error(error);
@@ -175,6 +184,7 @@ function App() {
     <>
       <div className="App">
         <div
+          id="info-panel"
           style={{
             position: "absolute",
             zIndex: "2",
@@ -186,19 +196,28 @@ function App() {
             fontFamily: "Rubik",
             display: "flex",
             flexDirection: "column",
+            gap: "1rem",
             alignItems: "center",
           }}
         >
           <ResortInfo resortData={resortData} />
           <HourlyForecast hourlyData={hourlyData} />
-          <LiftStatus liftStatusData={liftStatusData} />
-          <ToggleButtons
-            toggleState={toggleState}
-            toggleRuns={toggleRuns}
-            toggleSatellite={toggleSatellite}
-            toggleResortLabels={toggleResortLabels}
-            toggleLiftLabels={toggleLiftLabels}
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <LiftStatus liftStatusData={liftStatusData} />
+            <ToggleButtons
+              toggleState={toggleState}
+              toggleRuns={toggleRuns}
+              toggleSatellite={toggleSatellite}
+              toggleResortLabels={toggleResortLabels}
+              toggleLiftLabels={toggleLiftLabels}
+            />
+          </div>
         </div>
         <Canvas
           style={{ position: "absolute", top: 0, left: 0 }}
@@ -206,7 +225,7 @@ function App() {
           gl={{ antialias: true, toneMappingExposure: 1 }}
           shadows
         >
-          <fogExp2 attach="fog" args={["#ffffff", 0.02]} />
+          <fogExp2 attach="fog" args={["#ffffff", 0.05]} />
           <Environment
             files={
               "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/syferfontein_18d_clear_puresky_2k.hdr"
@@ -245,6 +264,26 @@ function App() {
           </Suspense>
           <Stars />
         </Canvas>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "0",
+            width: "100dvw",
+            color: "white",
+            zIndex: "2",
+            fontFamily: "Rubik",
+            fontSize: "0.7rem",
+          }}
+        >
+          Topography by Xavier Fischer used and modified under CC BY-NC-SA 4.0.
+          Weather API by{" "}
+          <a href="https://rapidapi.com/joeykyber/api/ski-resort-forecast">
+            Joey Kyber
+          </a>
+          . Lift Status API is simulated for demonstration purposes and not
+          reflective of real-world data. *Snow depth data reported by resort may
+          be innacurate due to end of season.
+        </div>
       </div>
     </>
   );

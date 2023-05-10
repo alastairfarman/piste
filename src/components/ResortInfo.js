@@ -14,7 +14,7 @@ export default function ResortInfo({ resortData }) {
           {resortData.top.elevation}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
-          {resortData.top.snowDepth}
+          {resortData.top.snowDepth == null ? "0cm*" : resortData.top.snowDepth}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
           {resortData.top.temperature}
@@ -26,11 +26,16 @@ export default function ResortInfo({ resortData }) {
           {resortData.bottom.elevation}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
-          {resortData.bottom.snowDepth}
+          {resortData.bottom.snowDepth == null
+            ? "0cm*"
+            : resortData.bottom.snowDepth}
         </span>
         <span style={{ padding: "0 0.5rem 0 0.5rem" }}>
           {resortData.bottom.temperature}
         </span>
+      </div>
+      <div>
+        {resortData.resort.freshSnowfall} {resortData.resort.lastSnowfallDate}
       </div>
     </div>
   );

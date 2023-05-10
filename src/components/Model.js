@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Text, Sphere } from "@react-three/drei";
 import * as THREE from "three";
@@ -19,6 +19,15 @@ export default function Model({ toggleState, liftData }) {
     return false;
   };
 
+  const defaultTopologyMaterial = useRef(null);
+  const whiteMaterial = useRef(
+    new THREE.MeshStandardMaterial({
+      color: "white",
+      side: THREE.DoubleSide,
+      roughness: 0,
+    })
+  );
+
   const initializeMeshes = () => {
     const emptyObjects = [];
     const liftObjects = [];
@@ -29,11 +38,9 @@ export default function Model({ toggleState, liftData }) {
         if (hasAncestorWithName(child, "Topography")) {
           child.castShadow = true;
           child.receiveShadow = true;
-          child.material = new THREE.MeshStandardMaterial({
-            color: "white",
-            side: THREE.DoubleSide,
-            roughness: 0.3,
-          });
+          if (defaultTopologyMaterial.current === null) {
+            defaultTopologyMaterial.current = child.material.clone(); // Clone the material only once to prevent overwriting!
+          }
         } else if (hasAncestorWithName(child, "Buildings")) {
           child.castShadow = true;
           child.receiveShadow = true;
@@ -79,6 +86,16 @@ export default function Model({ toggleState, liftData }) {
   });
 
   useEffect(() => {
+    gltf.scene.traverse((child) => {
+      if (child.isMesh && hasAncestorWithName(child, "Topography")) {
+        child.material = toggleState.satellite
+          ? whiteMaterial.current
+          : defaultTopologyMaterial.current.clone();
+      }
+    });
+  }, [toggleState.satellite, gltf.scene]);
+
+  useEffect(() => {
     runMeshes.forEach((child) => {
       child.visible = toggleState.runs;
     });
@@ -93,7 +110,9 @@ export default function Model({ toggleState, liftData }) {
             key={obj.name}
             position={[obj.position.x, obj.position.y + 1.2, obj.position.z]}
             rotation={[Math.PI / 2, Math.PI, 0]}
-            color={"black"}
+            material={
+              new THREE.MeshBasicMaterial({ color: 0x000000, fog: null })
+            }
             fontSize={0.4}
             fillOpacity={zoomLevel}
             font="./Rubik-Medium.ttf"

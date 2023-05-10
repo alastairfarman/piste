@@ -12,12 +12,13 @@ export default function ToggleButtons({
       <div style={{ display: "flex", gap: "1rem", margin: "1rem" }}>
         <button
           style={{
-            all: "unset",
             border: "solid 1px white",
-            padding: "2px",
+            padding: "5px",
             borderRadius: "5px",
             width: "25px",
+            height: "25px",
           }}
+          className="toggle-button"
           onClick={toggleRuns}
         >
           <img src="./run.png" alt="Runs" style={{ width: "25px" }} />
@@ -25,12 +26,13 @@ export default function ToggleButtons({
         <div style={{ display: "flex", flexDirection: "column" }}>
           <button
             style={{
-              all: "unset",
               border: "solid 1px white",
-              padding: "2px",
+              padding: "5px",
               borderRadius: "5px",
               width: "25px",
+              height: "25px",
             }}
+            className="toggle-button"
             onClick={toggleSatellite}
           >
             <img
@@ -42,12 +44,13 @@ export default function ToggleButtons({
         </div>
         <button
           style={{
-            all: "unset",
             border: "solid 1px white",
-            padding: "2px",
+            padding: "5px",
             borderRadius: "5px",
             width: "25px",
+            height: "25px",
           }}
+          className="toggle-button"
           onClick={toggleLiftLabels}
         >
           <img src="./lifts.png" alt="Lifts" style={{ width: "25px" }} />
