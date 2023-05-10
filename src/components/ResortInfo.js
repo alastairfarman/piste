@@ -34,8 +34,11 @@ export default function ResortInfo({ resortData }) {
           {resortData.bottom.temperature}
         </span>
       </div>
+      <h2>Last Snowfall</h2>
       <div>
-        {resortData.resort.freshSnowfall} {resortData.resort.lastSnowfallDate}
+        {resortData.resort.freshSnowfall
+          ? `${resortData.resort.freshSnowfall} on ${resortData.resort.lastSnowfallDate}`
+          : "Unavailable"}
       </div>
     </div>
   );

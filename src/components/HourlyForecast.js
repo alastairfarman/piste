@@ -8,7 +8,7 @@ export default function HourlyForecast({ hourlyData }) {
   const nextEightHoursData = hourlyData.slice(0, 8);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <h2 style={{ width: "100%" }}>Mountain Forecast</h2>
       <div
         id="hourly-forecast"

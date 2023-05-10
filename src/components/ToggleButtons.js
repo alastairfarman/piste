@@ -4,7 +4,6 @@ export default function ToggleButtons({
   toggleState,
   toggleRuns,
   toggleSatellite,
-  toggleResortLabels,
   toggleLiftLabels,
 }) {
   return (
@@ -18,7 +17,9 @@ export default function ToggleButtons({
             width: "25px",
             height: "25px",
           }}
-          className="toggle-button"
+          className={
+            !toggleState.runs ? "toggle-button" : "toggle-button active"
+          }
           onClick={toggleRuns}
         >
           <img src="./run.png" alt="Runs" style={{ width: "25px" }} />
@@ -32,7 +33,9 @@ export default function ToggleButtons({
               width: "25px",
               height: "25px",
             }}
-            className="toggle-button"
+            className={
+              toggleState.satellite ? "toggle-button" : "toggle-button active"
+            }
             onClick={toggleSatellite}
           >
             <img
@@ -50,7 +53,9 @@ export default function ToggleButtons({
             width: "25px",
             height: "25px",
           }}
-          className="toggle-button"
+          className={
+            !toggleState.liftLabels ? "toggle-button" : "toggle-button active"
+          }
           onClick={toggleLiftLabels}
         >
           <img src="./lifts.png" alt="Lifts" style={{ width: "25px" }} />
