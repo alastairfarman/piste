@@ -52,7 +52,7 @@ function App() {
       ...prevState,
       satellite: !prevState.satellite,
     }));
-    console.log(toggleState)
+    console.log(toggleState);
   };
 
   const toggleResortLabels = () => {
@@ -203,6 +203,7 @@ function App() {
           <ResortInfo resortData={resortData} />
           <HourlyForecast hourlyData={hourlyData} />
           <div
+            id="lift-toggle"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -237,9 +238,9 @@ function App() {
             enableDamping
             enableZoom={true}
             enableRotate={true}
-            maxPolarAngle={Math.PI / 4} // limits the angle of rotation
+            maxPolarAngle={Math.PI / 3} // limits the angle of rotation
             minPolarAngle={0} // limits the angle of rotation
-            minDistance={4} // minimum distance to the target
+            minDistance={3} // minimum distance to the target
             maxDistance={30} // maximum distance to the target
           />
           <Suspense

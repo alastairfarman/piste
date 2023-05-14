@@ -54,7 +54,7 @@ export default function getLiftStatuses() {
       status: timeString >= "08:30" && timeString < "16:30" ? "open" : "closed",
     },
     {
-      name: "Belle Plagne",
+      name: "Plagne 1800",
       status: timeString >= "08:30" && timeString < "16:30" ? "open" : "closed",
     },
     {

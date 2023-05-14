@@ -6,7 +6,7 @@ import { useLoader } from "@react-three/fiber";
 import useZoomLevel from "./useZoomLevel";
 
 export default function Model({ toggleState, liftData }) {
-  const gltf = useLoader(GLTFLoader, "./LaPlagne_crop.glb");
+  const gltf = useLoader(GLTFLoader, "./LaPlagne_crop_2.glb");
 
   const boundingBox = new THREE.Box3().setFromObject(gltf.scene);
   const zoomLevel = useZoomLevel(boundingBox);
@@ -128,8 +128,8 @@ export default function Model({ toggleState, liftData }) {
               position={[obj.position.x, obj.position.y + 0.2, obj.position.z]}
               rotation={[0, Math.PI, 0]}
               color={"black"}
-              fontSize={0.1}
-              outlineWidth={0.015}
+              fontSize={0.08}
+              outlineWidth={0.01}
               outlineColor={"white"}
               font="./Rubik-Medium.ttf"
               toneMapped={false}
@@ -142,7 +142,13 @@ export default function Model({ toggleState, liftData }) {
               args={[0.035, 16, 16]}
             >
               <meshBasicMaterial
-                color={obj.status === "open" ? "green" : "red"}
+                color={
+                  obj.status === "open"
+                    ? "green"
+                    : obj.status === "ooo"
+                    ? "#444444"
+                    : "red"
+                }
               />
             </Sphere>
           </>
