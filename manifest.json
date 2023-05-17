@@ -1,6 +1,8 @@
-{
-  "short_name": "La Plagne Piste Map",
-  "name": "La Plagne Interactive Lift & Piste Map",
-  "start_url": ".",
-  "display": "standalone"
-}
+[
+  {
+    "short_name": "La Plagne Piste Map",
+    "name": "La Plagne Interactive Lift & Piste Map",
+    "start_url": ".",
+    "display": "standalone"
+  }
+]
